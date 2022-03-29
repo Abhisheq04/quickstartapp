@@ -1,87 +1,138 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Loading from '../assets/img/loading.gif';
-import postImage from '../assets/img/newspaper-icon-png.jpg';
-import PostForm from '../components/Posts/PostForm';
-import Post from '../components/Posts/Post';
-import { fetchPosts } from '../reducks/posts/operations';
-import { getPosts } from '../reducks/posts/selectors';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Header from "../components/Common/Header";
+import Footer from "../components/Common/Footer";
+import PopupWriteRevew from "../components/Popup/WriteReview";
+import PopupRevews from "../components/Popup/Reviews";
+import Item from "../components/Common/Item";
+import { fetchItems } from "../reducks/items/operations";
+import { getItems } from "../reducks/items/selectors";
+import { getCarts, getSubtotal } from "../reducks/carts/selectors";
+import queryString from "query-string";
+//import { fetchFromLocalStorage } from "../reducks/carts/operations";
+import line from "../assets/img/line.png";
+import { push } from "connected-react-router";
+import {fetchCarts} from "../reducks/carts/operations"
 
 const Home = () => {
-    const dispatch = useDispatch();
-    const selector = useSelector(state => state);
-    const posts = getPosts(selector);
-    let [page, setPage] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
+  const parsed = queryString.parse(window.location.search);
+  const [showWriteReview, setShowWriteReview] = useState(false);
+  const [showReviews, setShowReviews] = useState(false);
+  const [showCartList, setShowCartList] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState();
+  const dispatch = useDispatch();
+  const selector = useSelector((state) => state);
+  const items = getItems(selector);
+  const carts = getCarts(selector);
+  const subtotal = getSubtotal(selector);
 
-    useEffect(() => {
-        dispatch(fetchPosts({ page }));
-        // eslint-disable-next-line
-    }, []);
+  // useEffect(() => {
+  //   dispatch(fetchFromLocalStorage());
+  //   dispatch(fetchItems(parsed.category));
+  // }, []);
+  useEffect(() => {
+    dispatch(fetchItems());
+    if (localStorage.getItem("LOGIN_USER_KEY")) {
+      dispatch(fetchCarts());
+    }
+  }, []);
 
-    // Infinite Scroll Pagination Flow
-    const observer = useRef();
+  const showItem = (item) => {
+    let selected_count = 0;
+    if (carts[item.id] && carts[item.id].selected_count) {
+      selected_count = carts[item.id].selected_count;
+    }
 
-    // Reference to a very last post element
-    const lastPostElement = useCallback(
-        node => {
-            if (isLoading) return;
-            // Disconnect reference from previous element, so that new last element is hook up correctly
-            if (observer.current) {
-                observer.current.disconnect();
-            }
-
-            // Observe changes in the intersection of target element
-            observer.current = new IntersectionObserver(async entries => {
-                // That means that we are on the page somewhere, In our case last element of the page
-                if (entries[0].isIntersecting && posts.next) {
-                    // Proceed fetch new page
-                    setIsLoading(true);
-                    setPage(++page);
-                    await dispatch(fetchPosts({ page }));
-                    setIsLoading(false);
-                }
-            });
-
-            // Reconnect back with the new last post element
-            if (node) {
-                observer.current.observe(node);
-            }
-        },
-        // eslint-disable-next-line
-        [posts.next]
-    );
+    if (showCartList && carts[item.id] == undefined) {
+      // if the page is cart page and item is not slected, show nothing.
+      return;
+    }
 
     return (
-        <section className="content">
-            <PostForm />
-            <section className="posts">
-                {posts.results.length > 0 ? (
-                    <ul>
-                        {posts.results.map((post, index) => {
-                            return (
-                                <Post
-                                    ref={index === posts.results.length - 1 ? lastPostElement : null}
-                                    key={post.id}
-                                    post={post}
-                                />
-                            );
-                        })}
-                    </ul>
-                ) : (
-                    <div className="no-post">
-                        <img width="72" src={postImage} alt="icon" />
-                        <p>No posts here yet...</p>
-                    </div>
-                )}
-                {isLoading && (
-                    <div className="loading">
-                        <img src={Loading} className="" alt="" />
-                    </div>
-                )}
-            </section>
-        </section>
+      <div className="items">
+        <Item
+          key={item.id}
+          item={item}
+          selected_count={selected_count}
+          setShowWriteReview={setShowWriteReview}
+          setShowReviews={setShowReviews}
+          setSelectedItemId={setSelectedItemId}
+        />
+      </div>
     );
+  };
+
+  return (
+    <div class="home">
+      <Header />
+
+      <section class="content">
+        {showCartList ? (
+          <>
+            <h1>Selected Items</h1>
+            <p>Please show this page to the waiter.</p>
+          </>
+        ) : (
+          <>
+            <div className="popular">
+              <p class="heading">Our Most Popular Recipes</p>
+              <img class="line" src={line} alt="" />
+              <p class="paragraph">
+                Try our Most Delicious food and it usually take minutes to
+                deliver!
+              </p>
+            </div>
+            <div div class="hot-links">
+              <div class="button">
+                <a className="text" href="/">
+                  All
+                </a>
+              </div>
+              <div class="button">
+                <a className="text" href="/?category=cold">
+                  Cold
+                </a>
+              </div>
+              <div class="button">
+                <a className="text" href="/?category=hot">
+                  Hot
+                </a>
+              </div>
+              <div class="button" id="yellowbutton">
+                <a className="text" id="bagel" href="/?category=bagel">
+                  Bagel
+                </a>
+              </div>
+            </div>
+          </>
+        )}
+        <div class="item-container">
+          {items && items.map((item) => showItem(item))}
+        </div>
+      </section>
+
+      <Footer
+        price={subtotal}
+        showCartList={showCartList}
+        setShowCartList={setShowCartList}
+      />
+
+      {showWriteReview && (
+        <PopupWriteRevew
+          selectedItemId={selectedItemId}
+          setSelectedItemId={setSelectedItemId}
+          setShowWriteReview={setShowWriteReview}
+        />
+      )}
+      {showReviews && (
+        <PopupRevews
+          selectedItemId={selectedItemId}
+          setSelectedItemId={setSelectedItemId}
+          setShowReviews={setShowReviews}
+        />
+      )}
+    </div>
+  );
 };
 
 export default Home;
