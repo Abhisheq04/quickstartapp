@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Reaction0 from "../../assets/img/notgood.png";
-import Reaction1 from "../../assets/img/goodimg.png";
-import Reaction2 from "../../assets/img/verygood.png";
-import Reaction3 from "../../assets/img/excellent.png";
-import Cross from "../../assets/img/cross.svg";
+import ImgReaction1 from "../../assets/img/reaction1.svg";
+import ImgReaction2 from "../../assets/img/reaction2.svg";
+import ImgReaction3 from "../../assets/img/reaction3.svg";
+import ImgReaction0 from "../../assets/img/reaction0.svg";
+import ImgIconCross from "../../assets/img/cross.svg";
 import API from "../../API";
 
 const api = new API();
@@ -21,40 +21,33 @@ const Reviews = ({ selectedItemId, setSelectedItemId, setShowReviews }) => {
   const getImgReaction = (like_count) => {
     switch (like_count) {
       case 1:
-        return Reaction1;
+        return ImgReaction1;
       case 2:
-        return Reaction2;
+        return ImgReaction2;
       case 3:
-        return Reaction3;
+        return ImgReaction3;
       default:
-        return Reaction0;
+        return ImgReaction0;
     }
   };
 
   return (
-    <section class="popup1">
-      <div class="popup-content">
-        <div class="inter">
-          <div className="close">
-            <img
-              src={Cross}
-              onClick={() => setShowReviews(false)}
-              class="cross"
-              alt=""
-            />
-          </div>
-          <div className="review-heading">
+    <section class="popup">
+      <div class="innter">
+        <div class="popup-content">
+          <div class="innter">
+            <img src={ImgIconCross} onClick={() => setShowReviews(false)} class="cross" alt="" />
             <h2>Reviews</h2>
-          </div>
-          <div class="reviews">
-            {reviews &&
-              reviews.map((review) => (
-                <div className="user-reaction">
-                  <img src={getImgReaction(review.like_count)} alt="" />
-                  <div class="name">{review.name}</div>
-                  <div class="body">{review.body}</div>
-                </div>
-              ))}
+            <ul class="reviews">
+              {reviews &&
+                reviews.map((review) => (
+                  <li>
+                    <img src={getImgReaction(review.like_count)} alt="" />
+                    <div class="name">{review.name}</div>
+                    <div class="body">{review.body}</div>
+                  </li>
+                ))}
+            </ul>
           </div>
         </div>
       </div>

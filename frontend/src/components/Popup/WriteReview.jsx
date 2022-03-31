@@ -1,18 +1,14 @@
 import React, { useState } from "react";
-import Cross from "../../assets/img/cross.svg";
-import Reaction0 from "../../assets/img/notgood.png";
-import Reaction1 from "../../assets/img/goodimg.png";
-import Reaction2 from "../../assets/img/verygood.png";
-import Reaction3 from "../../assets/img/excellent.png";
+import ImgIconCross from "../../assets/img/cross.svg";
+import ImgReaction0 from "../../assets/img/reaction0.svg";
+import ImgReaction1 from "../../assets/img/reaction1.svg";
+import ImgReaction2 from "../../assets/img/reaction2.svg";
+import ImgReaction3 from "../../assets/img/reaction3.svg";
 import API from "../../API";
 
 const api = new API();
 
-const WriteReview = ({
-  selectedItemId,
-  setSelectedItemId,
-  setShowWriteReview,
-}) => {
+const WriteReview = ({ selectedItemId, setSelectedItemId, setShowWriteReview }) => {
   const [likeCount, setLikeCount] = useState(1),
     [name, setName] = useState(""),
     [body, setBody] = useState("");
@@ -37,89 +33,47 @@ const WriteReview = ({
   };
 
   return (
-    <section class="popup1">
-      <div class="popup-content">
-        <div class="inter">
-          <div className="close">
-            <img
-              src={Cross}
-              onClick={() => setShowWriteReview(false)}
-              class="cross"
-              alt=""
-            />
-          </div>
-          <div className="review-heading">
+    <section class="popup">
+      <div class="innter">
+        <div class="popup-content">
+          <div class="innter">
+            <img src={ImgIconCross} onClick={() => setShowWriteReview(false)} class="cross" alt="" />
             <h2>Write Review</h2>
             <p>Choose your thought</p>
+            <ul class="reactions">
+              <li>
+                {likeCount === 1 ? (
+                  <img src={ImgReaction1} class="selected" onClick={() => setLikeCount(1)} alt="" />
+                ) : (
+                  <img src={ImgReaction1} onClick={() => setLikeCount(1)} alt="" />
+                )}
+              </li>
+              <li>
+                {likeCount === 2 ? (
+                  <img src={ImgReaction2} class="selected" onClick={() => setLikeCount(2)} alt="" />
+                ) : (
+                  <img src={ImgReaction2} onClick={() => setLikeCount(2)} alt="" />
+                )}
+              </li>
+              <li>
+                {likeCount === 3 ? (
+                  <img src={ImgReaction3} class="selected" onClick={() => setLikeCount(3)} alt="" />
+                ) : (
+                  <img src={ImgReaction3} onClick={() => setLikeCount(3)} alt="" />
+                )}
+              </li>
+              <li>
+                {likeCount === 0 ? (
+                  <img src={ImgReaction0} class="selected" onClick={() => setLikeCount(0)} alt="" />
+                ) : (
+                  <img src={ImgReaction0} onClick={() => setLikeCount(0)} alt="" />
+                )}
+              </li>
+            </ul>
+            <input onChange={inputName} type="text" name="name" placeholder="Enter your name" required />
+            <textarea onChange={inputBody} name="body" placeholder="Enter your review" required></textarea>
+            <button onClick={sendReviewButton}>Send Review</button>
           </div>
-          <div class="reactions">
-            <div className="good">
-              {likeCount === 1 ? (
-                <img
-                  src={Reaction1}
-                  class="selected"
-                  onClick={() => setLikeCount(1)}
-                  alt=""
-                />
-              ) : (
-                <img src={Reaction1} onClick={() => setLikeCount(1)} alt="" />
-              )}
-            </div>
-            <div className="good">
-              {likeCount === 2 ? (
-                <img
-                  src={Reaction2}
-                  class="selected"
-                  onClick={() => setLikeCount(2)}
-                  alt=""
-                />
-              ) : (
-                <img src={Reaction2} onClick={() => setLikeCount(2)} alt="" />
-              )}
-            </div>
-            <div className="good">
-              {likeCount === 3 ? (
-                <img
-                  src={Reaction3}
-                  class="selected"
-                  onClick={() => setLikeCount(3)}
-                  alt=""
-                />
-              ) : (
-                <img src={Reaction3} onClick={() => setLikeCount(3)} alt="" />
-              )}
-            </div>
-            <div className="good">
-              {likeCount === 0 ? (
-                <img
-                  src={Reaction0}
-                  class="selected"
-                  onClick={() => setLikeCount(0)}
-                  alt=""
-                />
-              ) : (
-                <img src={Reaction0} onClick={() => setLikeCount(0)} alt="" />
-              )}
-            </div>
-          </div>
-          <div className="user-name">
-          <input
-            onChange={inputName}
-            type="text"
-            name="name"
-            placeholder="Enter your name"
-            required
-            />
-          </div>
-          <div className="user-review">
-          <textarea
-            onChange={inputBody}
-            name="body"
-            placeholder="Enter your review"
-            required
-            ></textarea>
-            </div>
-          <button onClick={sendReviewButton}>Send Review</button>
         </div>
       </div>
     </section>

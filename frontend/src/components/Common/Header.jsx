@@ -1,33 +1,25 @@
 import React from "react";
-import BackgroundImg from "../../assets/img/background-img.png";
-import logo from "../../assets/img/logo-img.png";
-import { useDispatch } from "react-redux";
-import { push } from "connected-react-router";
+import logo from "../../assets/img/Logoo.svg";
+import Mainbanner from '../../assets/img/background.png';
+import whitebanner from '../../assets/img/white-banner.svg';
 
 const Header = () => {
-  const dispatch = useDispatch();
   return (
     <>
-      <section className="main">
-        <div className="main-image">
-          <img src={BackgroundImg} alt="" />
-        </div>
-        <div className="text">
-          <p>
-            Good food is <br />
-            The Foundation of <br />
-            <span id="happiness">GENUINE HAPPINESS</span>
-          </p>
-        </div>
-        <div className="logo">
-        <img
-          src={logo}
-          onClick={() => dispatch(push("/"))}
-          alt=""
-          />
-          </div>
+      <header>
+        <img src={Mainbanner} alt="" />
+        <img className="white-border" src={whitebanner} alt="" />
+      </header>
+      <section className="logo">
+        <img src={logo} alt="" />
       </section>
-    </>
+      <section className="text">
+        <p>
+          Good food is <br /> The Foundation of <br />{" "}
+          <span>GENUINE HAPPINESS</span>
+        </p>
+      </section>
+      </>
   );
 };
 

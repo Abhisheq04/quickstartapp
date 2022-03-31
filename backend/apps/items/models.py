@@ -28,6 +28,3 @@ class Item(models.Model):
     updated_at = models.DateTimeField(
         'Updated Datetime', blank=True, auto_now=True
     )
-
-    def __str__(self):
-        return self.user.name

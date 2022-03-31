@@ -8,11 +8,9 @@ import Item from "../components/Common/Item";
 import { fetchItems } from "../reducks/items/operations";
 import { getItems } from "../reducks/items/selectors";
 import { getCarts, getSubtotal } from "../reducks/carts/selectors";
-import queryString from "query-string";
-//import { fetchFromLocalStorage } from "../reducks/carts/operations";
-import line from "../assets/img/line.png";
-import { push } from "connected-react-router";
-import {fetchCarts} from "../reducks/carts/operations"
+import { fetchFromLocalStorage } from "../reducks/carts/operations";
+import queryString from "query-string"
+import brush from '../assets/img/brush.svg';
 
 const Home = () => {
   const parsed = queryString.parse(window.location.search);
@@ -26,15 +24,9 @@ const Home = () => {
   const carts = getCarts(selector);
   const subtotal = getSubtotal(selector);
 
-  // useEffect(() => {
-  //   dispatch(fetchFromLocalStorage());
-  //   dispatch(fetchItems(parsed.category));
-  // }, []);
   useEffect(() => {
-    dispatch(fetchItems());
-    if (localStorage.getItem("LOGIN_USER_KEY")) {
-      dispatch(fetchCarts());
-    }
+    dispatch(fetchFromLocalStorage());
+    dispatch(fetchItems(parsed.category));
   }, []);
 
   const showItem = (item) => {
@@ -49,7 +41,7 @@ const Home = () => {
     }
 
     return (
-      <div className="items">
+      <li>
         <Item
           key={item.id}
           item={item}
@@ -58,7 +50,7 @@ const Home = () => {
           setShowReviews={setShowReviews}
           setSelectedItemId={setSelectedItemId}
         />
-      </div>
+      </li>
     );
   };
 
@@ -74,41 +66,31 @@ const Home = () => {
           </>
         ) : (
           <>
-            <div className="popular">
-              <p class="heading">Our Most Popular Recipes</p>
-              <img class="line" src={line} alt="" />
-              <p class="paragraph">
+            <div className="popular-recipes">
+              <p>Our Most Popular Recipes</p>
+              <img src={brush} alt="" /> <br />
+              <span>
                 Try our Most Delicious food and it usually take minutes to
                 deliver!
-              </p>
+              </span>
             </div>
-            <div div class="hot-links">
-              <div class="button">
-                <a className="text" href="/">
-                  All
-                </a>
-              </div>
-              <div class="button">
-                <a className="text" href="/?category=cold">
-                  Cold
-                </a>
-              </div>
-              <div class="button">
-                <a className="text" href="/?category=hot">
-                  Hot
-                </a>
-              </div>
-              <div class="button" id="yellowbutton">
-                <a className="text" id="bagel" href="/?category=bagel">
-                  Bagel
-                </a>
-              </div>
-            </div>
+            <ul class="category">
+              <li class="active">
+                <a href="/">All</a>
+              </li>
+              <li>
+                <a href="/?category=hot">Hot</a>
+              </li>
+              <li>
+                <a href="/?category=cold">Cold</a>
+              </li>
+              <li>
+                <a href="/?category=bagel">Bagel</a>
+              </li>
+            </ul>
           </>
         )}
-        <div class="item-container">
-          {items && items.map((item) => showItem(item))}
-        </div>
+        <ul class="items">{items && items.map((item) => showItem(item))}</ul>
       </section>
 
       <Footer

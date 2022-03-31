@@ -32,7 +32,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -48,7 +47,6 @@ INSTALLED_APPS = [
     'apps.posts',
     'apps.items',
     'apps.reviews',
-    'apps.cart',
     'cloudinary',
     'django_filters',
 ]
@@ -90,25 +88,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 # Heroku Database
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dsep25e545jp',
-        'USER': 'kbvcztmblcijny',
-        'PORT': 5432,
-        'HOST': 'ec2-34-230-198-12.compute-1.amazonaws.com',
-        'PASSWORD': '11706d267fbd25a9027b81f9c3eb4fb7ce7b0f883a6881c88132fe16f272c35d',
-     }
- }
-
-# Local Database
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'd3ebuilcc5k4pg',
+#         'USER': 'fusmyzunpgeyqp',
+#         'PORT': 5432,
+#         'HOST': 'ec2-3-230-122-20.compute-1.amazonaws.com',
+#         'PASSWORD': 'fa5653430576bbc21b3ce72aae68281810b77e24395e3b5dc2f05c18c938dee3',
 #     }
 # }
 
+# Local Database
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Heroku PostgreSQL Database
 django_heroku.settings(locals())
@@ -159,9 +156,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 cloudinary.config(
-    cloud_name="djlnfxejk",
-    api_key="925574913183248",
-    api_secret="GpTrHVvLb2eC4CE_eaXntnm6nfY",
+    cloud_name="techis",
+    api_key="886187759951178",
+    api_secret="WGcWrWfkPlxdOCdlFaLTdjSNtfo",
     secure=True
 )
 

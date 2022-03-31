@@ -1,51 +1,19 @@
-import React, {useState, useEffect} from "react";
-import { useDispatch, useSelector } from "react-redux";
-import ImgIconHeart from "../../assets/img/heart-icon.png";
-import cart from "../../assets/img/cart-icon.svg";
+import React from "react";
+import { useDispatch } from "react-redux";
+import ImgIconHeart from "../../assets/img/heart.svg";
+import AddtoCart from '../../assets/img/cart.svg';
+import { addCart, increaseCart, decreaseCart } from "../../reducks/carts/operations";
 
-import {
-  addCart,
-  increaseCart,
-  decreaseCart,
-} from "../../reducks/carts/operations";
-import { getCarts } from "../../reducks/carts/selectors";
-import {push} from "connected-react-router"
-
-const Item = ({
-  item,
-  selected_count,
-  setShowWriteReview,
-  setShowReviews,
-  setSelectedItemId,
-}) => {
-  const selector = useSelector((state) => state);
-  const key = localStorage.getItem("LOGIN_USER_KEY");
-  
-  const [particularCart, setParticularCart] = useState(null);
-  useEffect(() => {
-    if (carts != undefined && carts.length > 0) {
-      console.log("carts");
-      console.log(carts);
-      let matchedCarts = carts.filter((cart) => cart.item.id == item.id);
-      console.log("matchedCarts");
-      console.log(matchedCarts);
-      if (matchedCarts.length > 0) {
-        setParticularCart(matchedCarts[0]);
-      } else {
-        setParticularCart(null);
-      }
-    }
-  }, []);
-  const carts = getCarts(selector);
+const Item = ({ item, selected_count, setShowWriteReview, setShowReviews, setSelectedItemId }) => {
   const dispatch = useDispatch();
   const clickAddCart = () => {
     dispatch(addCart(item));
   };
   const clickPlusCart = () => {
-    dispatch(increaseCart(setSelectedItemId.item));
+    dispatch(increaseCart(item));
   };
   const clickMinusCart = () => {
-    dispatch(decreaseCart(setSelectedItemId.item));
+    dispatch(decreaseCart(item));
   };
   const clickCheckReviews = () => {
     setSelectedItemId(item.id);
@@ -57,32 +25,30 @@ const Item = ({
   };
   return (
     <>
-      <div class="item">
-        <div class="menu">
-          <div className="item-image" >
-          <img class="img1" src={item.image} alt="image" />
+      <div className="item">
+        <div className="item-image">
+          <img src={item.image} alt="" />
+        </div>
+        <div className="likes">
+          <img src={ImgIconHeart} class="icon-heart" alt="" />
+          <div class="count">({item.total_like_count})</div>
+        </div>
+        <div class="info">
+          <div class="name">{item.name}</div>
+          <div class="name-bottom">
+            <a class="link-button" onClick={() => clickCheckReviews(true)}>
+              Check Reviews
+            </a>
+            <a class="link-button" onClick={() => clickWriteReview(true)}>
+              Write Reviews
+            </a>
           </div>
-          <div class="likes">
-            <img class="hearticon" src={ImgIconHeart} alt="" />
-            <p class="likescount">{item.total_like_count}</p>
-          </div>
-          <div className="name">
-            <p>{item.name}</p>
-          </div>
-          <div className="reviewbox">
-            <p class="review" onClick={() => clickWriteReview()}>
-              Write Reviews{" "}
-            </p>
-            <p class="review" onClick={() => clickCheckReviews()}>
-              Read Reviews
-            </p>
-          </div>
-          {selected_count == 0 ? (
-            <div class="cartbutton">
-              <img onClick={clickAddCart} src={cart} alt="" />
-            </div>
-          ) : (
-            <div class="number-1">
+          <div class="info-bottom">
+            {selected_count == 0 ? (
+              <div class="add" onClick={clickAddCart}>
+                <img src={AddtoCart} alt="" />
+              </div>
+            ) : (
               <div class="number">
                 <span class="minus" onClick={clickMinusCart}>
                   －
@@ -92,9 +58,9 @@ const Item = ({
                   +
                 </span>
               </div>
-            </div>
-          )}
-          <p class="price">{item.price}</p>
+            )}
+            <div class="price">${item.price}</div>
+          </div>
         </div>
       </div>
     </>
