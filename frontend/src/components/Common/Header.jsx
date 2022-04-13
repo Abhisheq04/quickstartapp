@@ -9,17 +9,18 @@ const Header = () => {
       <header>
         <img src={Mainbanner} alt="" />
         <img className="white-border" src={whitebanner} alt="" />
+
+        <section className="logo">
+          <img src={logo} alt="" />
+        </section>
+        <section className="text">
+          <p>
+            Good food is <br /> The Foundation of <br />{" "}
+            <span>GENUINE HAPPINESS</span>
+          </p>
+        </section>
       </header>
-      <section className="logo">
-        <img src={logo} alt="" />
-      </section>
-      <section className="text">
-        <p>
-          Good food is <br /> The Foundation of <br />{" "}
-          <span>GENUINE HAPPINESS</span>
-        </p>
-      </section>
-      </>
+    </>
   );
 };
 

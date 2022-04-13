@@ -9,14 +9,14 @@ body {
   font-family: "Montserrat";
 }
 
-h1 {
+/* h1 {
   font-size: 30px;
-}
+} */
 li {
   list-style: none;
 }
 ul.category {
-  padding: 30px 0;
+  padding: 2% 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,7 +47,7 @@ ul.category li.active a:visited {
 }
 
 .content {
-  padding: 0px 30px 100px 30px;
+  padding: 0 2%;
 }
 .content .popular-recipes {
   text-align: center;
@@ -63,20 +63,51 @@ ul.category li.active a:visited {
     padding: 0px 5px 100px 5px;
   }
 }
+/*****************
+*****Categrory
+*****************/
+.category-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+  margin: 2rem 0rem;
+}
+.category-container a {
+  text-decoration: none;
+  background-color: #a80e0e;
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  color: #fff;
+}
+.category-container .active  a {
+  background-color: #e1a700;
+}
+.category-container a:hover {
+  background-color: #e1a700;
+}
+
 /****************************
 * Items 
 *****************************/
 
 .items {
   display: grid;
-  grid-template-columns: auto auto auto;
-  grid-gap: 30px;
+  grid-template-columns: repeat(3,1fr);
+  gap: 2rem;
+ 
 }
 .items .item {
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
+.items .item .item-image {
+  width: 100%;
+}
 .items .item-image img {
   width: 100%;
+ 
 }
 .item .likes {
   display: flex;
@@ -133,8 +164,8 @@ ul.category li.active a:visited {
 
 @media screen and (max-width: 500px) {
   .items {
-    grid-template-columns: auto;
-    grid-gap: 15px;
+    grid-template-columns: repeat(1,1fr);
+    
   }
   .items .item .info {
     padding: 5px 5px;
@@ -147,7 +178,9 @@ ul.category li.active a:visited {
 /****************************
 * Header
 *****************************/
-
+header {
+  position: relative;
+}
 header img {
   width: 100%;
 }
@@ -158,19 +191,20 @@ header img.white-border {
 }
 .logo {
   position: absolute;
-  top: 3%;
   left: 5%;
+  top: 0;
+  width: 8%;
 }
 .logo img {
-  width: 100px;
+  width: 100%;
 }
-.text {
+header .text {
   position: absolute;
   top: 30%;
   left: 15%;
 }
 .text p {
-  font-size: 60px;
+  font-size: 4vw;
   color: #fff;
   font-weight: 600;
 }
@@ -180,30 +214,36 @@ header img.white-border {
 /****************************
 * Media Screen
 *****************************/
-@media screen and (max-width:450px) {
+
+@media only screen and (max-width:600px) {
+  header img.white-border {
+    bottom: 14px;
+  }
+}
+@media only screen and (max-width:950px) and (min-width:600px) {
+  header img.white-border {
+    bottom: 20px;
+  }
+}
+/* @media screen and (max-width: 450px) {
   .logo img {
     width: 50px;
   }
   .logo {
     top: 0;
   }
-  .text {
-    top: 10%;
-    left: 5%;
-  }
-  .text p {
-    font-size: 14px;
-  }
+  
   header img.white-border {
     bottom: 15px;
   }
   ul.category {
     padding: 20px 0px;
     gap: 30px;
+    flex-wrap: wrap;
   }
-}
-@media screen and (max-width:280px) {
-   ul.category li a {
+} */
+@media screen and (max-width: 280px) {
+  ul.category li a {
     padding: 10px 25px;
   }
 }
@@ -214,14 +254,15 @@ header img.white-border {
 footer {
   position: sticky;
   bottom: 0;
-  left: 0%;
+  left: 0;
   display: flex;
   justify-content: flex-end;
-  padding: 15px 0px;
+  padding: 1% 0;
+  margin: 10% 0;
   background-color: white;
-  z-index: 2;
-  border: 1px solid gray;
+  border-top: 1px solid gray;
   width: 100%;
+ z-index: 2;
 }
 
 footer .subtotal {
@@ -229,7 +270,7 @@ footer .subtotal {
   line-height: 50px;
   font-weight: bold;
 }
-
+ 
 footer button {
   margin-right: 20px;
   margin-left: 20px;
@@ -280,7 +321,7 @@ footer button.link-button {
     font-size: 14px;
   }
 }
-@media screen and (max-width:280px) {
+@media screen and (max-width: 280px) {
   footer .subtotal {
     font-size: 15px;
   }
@@ -309,11 +350,11 @@ footer button.link-button {
   font-weight: 600;
   font-size: 30px;
   margin: 0;
-  padding: 10px 0px;
+  padding: 2% 0;
 }
 .content .popular-recipes img {
-  padding: 0px 0px 10px 0px;
-  width: 100%;
+  padding: 2% 0 2% 0;
+  width: 60%;
 }
 
 /****************************
@@ -437,6 +478,7 @@ footer button.link-button {
   overflow-wrap: break-word;
 }
 
+
 @media screen and (max-width: 500px) {
   .popup .popup-content {
     top: 20%;
@@ -445,3 +487,5 @@ footer button.link-button {
     padding: 0 4%;
   }
 }
+
+

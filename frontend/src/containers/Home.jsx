@@ -74,23 +74,23 @@ const Home = () => {
                 deliver!
               </span>
             </div>
-            <ul class="category">
-              <li class="active">
+            <div className="category-container">
+              <div className="active">
                 <a href="/">All</a>
-              </li>
-              <li>
+              </div>
+              <div className="hot">
                 <a href="/?category=hot">Hot</a>
-              </li>
-              <li>
+              </div>
+              <div className="cold">
                 <a href="/?category=cold">Cold</a>
-              </li>
-              <li>
+              </div>
+              <div className="bagel">
                 <a href="/?category=bagel">Bagel</a>
-              </li>
-            </ul>
+              </div>
+            </div>
           </>
         )}
-        <ul class="items">{items && items.map((item) => showItem(item))}</ul>
+        <div class="items">{items && items.map((item) => showItem(item))}</div>
       </section>
 
       <Footer
